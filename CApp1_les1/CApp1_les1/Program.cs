@@ -15,4 +15,8 @@ namespace CApp1_les1
             Console.ReadKey();
         }
     }
+
+     class Cat
+    {
+    }
 }
