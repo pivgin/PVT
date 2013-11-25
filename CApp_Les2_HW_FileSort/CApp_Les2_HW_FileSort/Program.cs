@@ -7,47 +7,48 @@ using System.IO;
 
 namespace CApp_Les2_HW_FileSort
 {
-    class Program
+    class AutoSort
     {
-        class AutoSort
+        
+        public static int[] Sort(int[] intnumberscopy)
         {
-            public static int[] Sort(int [] intnumberscopy)
-            {
-                Array.Sort(intnumberscopy);
-                return intnumberscopy;
-            }
-
+            Array.Sort(intnumberscopy);
+            return intnumberscopy;
         }
 
-        class CustomSort
+    }
+    
+    class CustomSort
+    {
+
+        public static int[] Sort(int[] intnumbers)
         {
+            //int [] strnumberscopy;
+            int[] intnumberscopy = intnumbers;
+            int temp;
 
-            public static int[] Sort(int[] intnumbers)
+            for (int i = 0; i < intnumberscopy.Length - 1; i++)
             {
-                //int [] strnumberscopy;
-                int[] intnumberscopy = intnumbers;
-                int temp;
-
-                for (int i = 0; i < intnumberscopy.Length - 1; i++) 
+                for (int j = 0; j < intnumberscopy.Length - i - 1; j++)
                 {
-                    for (int j = 0; j < intnumberscopy.Length - i - 1; j++)
+                    if (intnumberscopy[j] > intnumberscopy[j + 1])
                     {
-                        if (intnumberscopy[j] > intnumberscopy[j + 1]) 
-                        {
-                            temp = intnumberscopy[j];
-                            intnumberscopy[j] = intnumberscopy[j+1];
-                            intnumberscopy[j + 1] = temp;
+                        temp = intnumberscopy[j];
+                        intnumberscopy[j] = intnumberscopy[j + 1];
+                        intnumberscopy[j + 1] = temp;
 
-                        }
                     }
                 }
-
-
-                    return intnumberscopy;
             }
 
+
+            return intnumberscopy;
         }
 
+    }
+    
+    class Program
+    {
         static void Main(string[] args)
         {
             //string path = @"C:\Users\Pivgin\Source\Repos\PVT\CApp_Les2_HW_FileSort\CApp_Les2_HW_FileSort\bin\Debug\data";
