@@ -73,59 +73,58 @@ namespace CApp_Les2_HW_FileSort
               string[] strnumbers = new string[origstr.Length];
               int i = 0;
               string[] stri = new string[origstr.Length];
-              
-              
+
+              try
+              {
                   foreach (string s in origstr)
-                  { 
-                      try
-                        {
-                            intnumbers[i] = int.Parse(s);
-                            intnumberscopy[i] = int.Parse(s);
-                            i++;
-                          throw new MyException() { Stringnumber = i };
-                        }
-                      catch (MyException exception)
-                      {
-                          Console.WriteLine("Not all the numbers in the source file are numbers.");
-                          Console.WriteLine("Please check all of them. Thx");
-                          Console.WriteLine("Wrong value is in string " + exception.Stringnumber);
-                      }
-                      
-                      //intnumbers[i] = int.Parse(s);
-                      //intnumberscopy[i] = int.Parse(s);  
-                      //i++;
-                    
+                  {
+                      // Сейчас в исходном файле нет ошибки                      
+                      intnumbers[i] = int.Parse(s);
+                      intnumberscopy[i] = int.Parse(s);
+                      i++;
+                      // throw new MyException() { Stringnumber = i };
                   }
-              
-              CustomSort.Sort(intnumbers);
-
-              i = 0;
-              foreach (int s1 in intnumbers)
-              {
-                  strnumbers[i] = s1.ToString();
-                  Console.WriteLine(strnumbers[i]);
-                  File.WriteAllLines("data\\resultf1.txt", strnumbers);
-                  i++;
-              }
-              
-              Console.WriteLine("\n" + "----------");
-              AutoSort.Sort(intnumberscopy);
-              
-              i = 0;
-              foreach (int s1 in intnumberscopy)
-              {
-                  strnumbers[i] = s1.ToString();
-                  Console.WriteLine(strnumbers[i]);
-                  File.WriteAllLines("data\\resultf2auto.txt", strnumbers);
-                  i++;
+                  throw new MyException() { Stringnumber = i };
               }
 
+              catch (MyException exception)
+              {
+                  Console.WriteLine("Not all the numbers in the source file are numbers.");
+                  Console.WriteLine("Please check all of them. Thx");
+                  Console.WriteLine("Wrong value is in string " + exception.Stringnumber);
+              }
+              finally
+              {
+                  CustomSort.Sort(intnumbers);
+
+                  i = 0;
+                  foreach (int s1 in intnumbers)
+                  {
+                      strnumbers[i] = s1.ToString();
+                      Console.WriteLine(strnumbers[i]);
+                      File.WriteAllLines("data\\resultf1.txt", strnumbers);
+                      i++;
+                  }
+
+                  Console.WriteLine("\n" + "----------");
+                  AutoSort.Sort(intnumberscopy);
+
+                  i = 0;
+                  foreach (int s1 in intnumberscopy)
+                  {
+                      strnumbers[i] = s1.ToString();
+                      Console.WriteLine(strnumbers[i]);
+                      File.WriteAllLines("data\\resultf2auto.txt", strnumbers);
+                      i++;
+                  }
+              }
           }
           catch (FileNotFoundException exception)
             {
               Console.WriteLine("Man! " + exception.Message);
             }
 
+            
           Console.ReadKey();
            // File.Delete("data\\resultf1.txt");
         }
