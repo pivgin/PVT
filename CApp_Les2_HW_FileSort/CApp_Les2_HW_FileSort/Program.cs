@@ -53,40 +53,56 @@ namespace CApp_Les2_HW_FileSort
         {
             //string path = @"C:\Users\Pivgin\Source\Repos\PVT\CApp_Les2_HW_FileSort\CApp_Les2_HW_FileSort\bin\Debug\data";
             //File.OpenRead("data\\originalf.txt");
-            
-            string [] origstr = File.ReadAllLines("data\\originalf.txt");
-            int[] intnumbers = new int[origstr.Length];
-            int[] intnumberscopy = new int[origstr.Length];
-            string[] strnumbers = new string[origstr.Length];
-            int i=0;
-            string[] stri = new string[origstr.Length];
-            foreach (string s in origstr) 
+          string fName = Console.ReadLine();
+
+            try
             {
-                intnumbers[i] = int.Parse(s);
-                intnumberscopy[i] = int.Parse(s);
-                i++;
+                if (!File.Exists(fName))    // data/originalf.txt
+                {   
+                    throw new FileNotFoundException();
+                }
+                
+                string[] origstr = File.ReadAllLines(fName);
+                int[] intnumbers = new int[origstr.Length];
+                int[] intnumberscopy = new int[origstr.Length];
+                string[] strnumbers = new string[origstr.Length];
+                int i = 0;
+                string[] stri = new string[origstr.Length];
+
+                foreach (string s in origstr)
+                {
+                    intnumbers[i] = int.Parse(s);
+                    intnumberscopy[i] = int.Parse(s);
+                    i++;
+                }
+                //int[] intnumberscopy = intnumbers;
+                CustomSort.Sort(intnumbers);
+
+                i = 0;
+                foreach (int s1 in intnumbers)
+                {
+                    strnumbers[i] = s1.ToString();
+                    Console.WriteLine(strnumbers[i]);
+                    File.WriteAllLines("data\\resultf1.txt", strnumbers);
+                    i++;
+                }
+                Console.WriteLine("\n" + "----------");
+                AutoSort.Sort(intnumberscopy);
+                i = 0;
+                foreach (int s1 in intnumberscopy)
+                {
+                    strnumbers[i] = s1.ToString();
+                    Console.WriteLine(strnumbers[i]);
+                    File.WriteAllLines("data\\resultf2auto.txt", strnumbers);
+                    i++;
+                }
+
             }
-            //int[] intnumberscopy = intnumbers;
-            CustomSort.Sort(intnumbers);
-           
-            i = 0;
-            foreach (int s1 in intnumbers) 
+            catch (FileNotFoundException exception)
             {
-                strnumbers[i] = s1.ToString();
-                Console.WriteLine(strnumbers[i]);
-                File.WriteAllLines("data\\resultf1.txt", strnumbers);
-                i++;
+                Console.WriteLine("Man! "+ exception.Message);
             }
-            Console.WriteLine("\n" + "----------");
-            AutoSort.Sort(intnumberscopy);
-            i = 0;
-            foreach (int s1 in intnumberscopy)
-            {
-                strnumbers[i] = s1.ToString();
-                Console.WriteLine(strnumbers[i]);
-                File.WriteAllLines("data\\resultf2auto.txt", strnumbers);
-                i++;
-            }
+
             Console.ReadKey();
            // File.Delete("data\\resultf1.txt");
         }
