@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MyDBModelStoreContainer">
+          <EntitySet Name="Incident" EntityType="MyDBModel.Store.Incident" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IncidentIspolnitel" EntityType="MyDBModel.Store.IncidentIspolnitel" store:Type="Tables" store:Schema="dbo" store:Name="IncidentIspolnitel">
+            <DefiningQuery>SELECT 
+      [IncidentIspolnitel].[IDIncident] AS [IDIncident], 
+      [IncidentIspolnitel].[IDIspolnitel] AS [IDIspolnitel]
+      FROM [dbo].[IncidentIspolnitel] AS [IncidentIspolnitel]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Ispolnitel" EntityType="MyDBModel.Store.Ispolnitel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Otdel" EntityType="MyDBModel.Store.Otdel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OtdelIspolnitel" EntityType="MyDBModel.Store.OtdelIspolnitel" store:Type="Tables" store:Schema="dbo" store:Name="OtdelIspolnitel">
+            <DefiningQuery>SELECT 
+      [OtdelIspolnitel].[IDIspolnitel] AS [IDIspolnitel], 
+      [OtdelIspolnitel].[IDOtdel] AS [IDOtdel]
+      FROM [dbo].[OtdelIspolnitel] AS [OtdelIspolnitel]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_IncidentIspolnitel_ToIncident" Association="MyDBModel.Store.FK_IncidentIspolnitel_ToIncident">
+            <End Role="Incident" EntitySet="Incident" />
+            <End Role="IncidentIspolnitel" EntitySet="IncidentIspolnitel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncidentIspolnitel_ToIspolnitel" Association="MyDBModel.Store.FK_IncidentIspolnitel_ToIspolnitel">
+            <End Role="Ispolnitel" EntitySet="Ispolnitel" />
+            <End Role="IncidentIspolnitel" EntitySet="IncidentIspolnitel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OtdelIspolnitel_ToIspolnitel" Association="MyDBModel.Store.FK_OtdelIspolnitel_ToIspolnitel">
+            <End Role="Ispolnitel" EntitySet="Ispolnitel" />
+            <End Role="OtdelIspolnitel" EntitySet="OtdelIspolnitel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OtdelIspolnitel_ToOtdel" Association="MyDBModel.Store.FK_OtdelIspolnitel_ToOtdel">
+            <End Role="Otdel" EntitySet="Otdel" />
+            <End Role="OtdelIspolnitel" EntitySet="OtdelIspolnitel" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateOfCreation" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateOfShutDown" Type="nvarchar(max)" />
+          <Property Name="CauseOfShutDown" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\TEMP\INCIDENTASPNET\INCIDENTASPNET\APP_DATA\MYDB.MDF.dbo.IncidentIspolnitel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="IncidentIspolnitel">
+          <Key>
+            <PropertyRef Name="IDIncident" />
+            <PropertyRef Name="IDIspolnitel" />
+          </Key>
+          <Property Name="IDIncident" Type="int" Nullable="false" />
+          <Property Name="IDIspolnitel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ispolnitel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Post" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Otdel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\TEMP\INCIDENTASPNET\INCIDENTASPNET\APP_DATA\MYDB.MDF.dbo.OtdelIspolnitel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="OtdelIspolnitel">
+          <Key>
+            <PropertyRef Name="IDIspolnitel" />
+            <PropertyRef Name="IDOtdel" />
+          </Key>
+          <Property Name="IDIspolnitel" Type="int" Nullable="false" />
+          <Property Name="IDOtdel" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_IncidentIspolnitel_ToIncident">
+          <End Role="Incident" Type="MyDBModel.Store.Incident" Multiplicity="1" />
+          <End Role="IncidentIspolnitel" Type="MyDBModel.Store.IncidentIspolnitel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incident">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncidentIspolnitel">
+              <PropertyRef Name="IDIncident" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncidentIspolnitel_ToIspolnitel">
+          <End Role="Ispolnitel" Type="MyDBModel.Store.Ispolnitel" Multiplicity="1" />
+          <End Role="IncidentIspolnitel" Type="MyDBModel.Store.IncidentIspolnitel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ispolnitel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IncidentIspolnitel">
+              <PropertyRef Name="IDIspolnitel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OtdelIspolnitel_ToIspolnitel">
+          <End Role="Ispolnitel" Type="MyDBModel.Store.Ispolnitel" Multiplicity="1" />
+          <End Role="OtdelIspolnitel" Type="MyDBModel.Store.OtdelIspolnitel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ispolnitel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OtdelIspolnitel">
+              <PropertyRef Name="IDIspolnitel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OtdelIspolnitel_ToOtdel">
+          <End Role="Otdel" Type="MyDBModel.Store.Otdel" Multiplicity="1" />
+          <End Role="OtdelIspolnitel" Type="MyDBModel.Store.OtdelIspolnitel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Otdel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OtdelIspolnitel">
+              <PropertyRef Name="IDOtdel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Incident" EntityType="MyDBModel.Incident" />
+          <EntitySet Name="Ispolnitel" EntityType="MyDBModel.Ispolnitel" />
+          <EntitySet Name="Otdel" EntityType="MyDBModel.Otdel" />
+          <AssociationSet Name="IncidentIspolnitel" Association="MyDBModel.IncidentIspolnitel">
+            <End Role="Incident" EntitySet="Incident" />
+            <End Role="Ispolnitel" EntitySet="Ispolnitel" />
+          </AssociationSet>
+          <AssociationSet Name="OtdelIspolnitel" Association="MyDBModel.OtdelIspolnitel">
+            <End Role="Ispolnitel" EntitySet="Ispolnitel" />
+            <End Role="Otdel" EntitySet="Otdel" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DateOfCreation" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DateOfShutDown" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CauseOfShutDown" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Ispolnitel" Relationship="MyDBModel.IncidentIspolnitel" FromRole="Incident" ToRole="Ispolnitel" />
+        </EntityType>
+        <EntityType Name="Ispolnitel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Post" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Incident" Relationship="MyDBModel.IncidentIspolnitel" FromRole="Ispolnitel" ToRole="Incident" />
+          <NavigationProperty Name="Otdel" Relationship="MyDBModel.OtdelIspolnitel" FromRole="Ispolnitel" ToRole="Otdel" />
+        </EntityType>
+        <EntityType Name="Otdel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Ispolnitel" Relationship="MyDBModel.OtdelIspolnitel" FromRole="Otdel" ToRole="Ispolnitel" />
+        </EntityType>
+        <Association Name="IncidentIspolnitel">
+          <End Role="Incident" Type="MyDBModel.Incident" Multiplicity="*" />
+          <End Role="Ispolnitel" Type="MyDBModel.Ispolnitel" Multiplicity="*" />
+        </Association>
+        <Association Name="OtdelIspolnitel">
+          <End Role="Ispolnitel" Type="MyDBModel.Ispolnitel" Multiplicity="*" />
+          <End Role="Otdel" Type="MyDBModel.Otdel" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyDBModelStoreContainer" CdmEntityContainer="MyDBEntities">
+          <EntitySetMapping Name="Incident">
+            <EntityTypeMapping TypeName="MyDBModel.Incident">
+              <MappingFragment StoreEntitySet="Incident">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateOfCreation" ColumnName="DateOfCreation" />
+                <ScalarProperty Name="DateOfShutDown" ColumnName="DateOfShutDown" />
+                <ScalarProperty Name="CauseOfShutDown" ColumnName="CauseOfShutDown" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ispolnitel">
+            <EntityTypeMapping TypeName="MyDBModel.Ispolnitel">
+              <MappingFragment StoreEntitySet="Ispolnitel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Otdel">
+            <EntityTypeMapping TypeName="MyDBModel.Otdel">
+              <MappingFragment StoreEntitySet="Otdel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="IncidentIspolnitel" TypeName="MyDBModel.IncidentIspolnitel" StoreEntitySet="IncidentIspolnitel">
+            <EndProperty Name="Incident">
+              <ScalarProperty Name="Id" ColumnName="IDIncident" />
+            </EndProperty>
+            <EndProperty Name="Ispolnitel">
+              <ScalarProperty Name="Id" ColumnName="IDIspolnitel" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="OtdelIspolnitel" TypeName="MyDBModel.OtdelIspolnitel" StoreEntitySet="OtdelIspolnitel">
+            <EndProperty Name="Ispolnitel">
+              <ScalarProperty Name="Id" ColumnName="IDIspolnitel" />
+            </EndProperty>
+            <EndProperty Name="Otdel">
+              <ScalarProperty Name="Id" ColumnName="IDOtdel" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
